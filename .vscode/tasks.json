@@ -7,6 +7,7 @@
             "args": [
                 "-g",
                 "${workspaceFolder}/main.cpp",
+                "${workspaceFolder}/block.cpp",
                 "-o",
                 "${workspaceFolder}/Build",
                 "-lglfw",

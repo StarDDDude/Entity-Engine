@@ -2,6 +2,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include "block.h"
 
 int main(void){
     GLFWwindow* window;
@@ -26,8 +27,11 @@ int main(void){
         std::cout << "glewInit error" << std::endl;
     }
 
-    while (!glfwWindowShouldClose(window))
+    block* fast_boi = new block(45,10);
+
+    while(!glfwWindowShouldClose(window))
     {
+        fast_boi->update();
 
         glfwSwapBuffers(window);
         glfwPollEvents();
