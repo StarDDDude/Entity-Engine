@@ -1,8 +1,12 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+
 #include <iostream>
+
 #include "block.h"
+
 
 int main(void){
     GLFWwindow* window;
@@ -31,7 +35,8 @@ int main(void){
     block* boi2 = new block(100, 100, 180, 5);
 
     while(!glfwWindowShouldClose(window))
-    {
+    {   
+        glClear(GL_COLOR_BUFFER_BIT);
         boi1->update();
         boi2->update();
 
@@ -42,6 +47,8 @@ int main(void){
             boi2->direction = 0;
         }
 
+        boi1->draw();
+        boi2->draw();
 
         glfwSwapBuffers(window);
         glfwPollEvents();
