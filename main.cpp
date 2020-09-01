@@ -27,11 +27,21 @@ int main(void){
         std::cout << "glewInit error" << std::endl;
     }
 
-    block* fast_boi = new block(45,10);
+    block* boi1 = new block(10, 100, 0, 10);
+    block* boi2 = new block(100, 100, 180, 5);
 
     while(!glfwWindowShouldClose(window))
     {
-        fast_boi->update();
+        boi1->update();
+        boi2->update();
+
+        if ((boi1->Xpos + boi1->size) > (boi2->Xpos - boi2->size)){
+            boi1->back();
+            boi2->back();
+            boi1->direction = 180;
+            boi2->direction = 0;
+        }
+
 
         glfwSwapBuffers(window);
         glfwPollEvents();

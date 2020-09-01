@@ -1,14 +1,14 @@
 #pragma once
 
 class block {
-private:
+public:
     int Xpos;
     int Ypos;
-    int size;
-public:
-    block(int i_direction, int i_speed);        //i_ for inititializer variables
-    void update();
-    
+    int size;    
     int direction;
     int speed;
+
+    block(int i_Xpos, int i_Ypos, int i_direction, int i_speed);        //i_ for inititializer variables
+    void update();
+    void back();
 };
