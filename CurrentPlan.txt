@@ -1,3 +1,8 @@
-1. Add Graphics
+1.0 Add Graphics                    [Partly Completed]
+1.1 Add Transformations (so that things can get updated dynamically)
+1.2 Add shader Loading system
 
-2. Add actual functionality
+2.0 Add actual functionality
+2.1 System for handling entities
+
+3 Clean up code

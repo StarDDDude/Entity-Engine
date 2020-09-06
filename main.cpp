@@ -5,6 +5,7 @@
 
 #include <iostream>
 
+#include "GLAssert.h"
 #include "block.h"
 
 
@@ -18,7 +19,7 @@ int main(void){
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    window = glfwCreateWindow(950, 540, "Boxes", NULL, NULL);
+    window = glfwCreateWindow(540, 540, "Boxes", NULL, NULL);
     if (!window){
         glfwTerminate();
         return -1;
@@ -31,8 +32,8 @@ int main(void){
         std::cout << "glewInit error" << std::endl;
     }
 
-    block* boi1 = new block(10, 100, 0, 10);
-    block* boi2 = new block(100, 100, 180, 5);
+    block* boi1 = new block(-30, 0, 0, 10);
+    block* boi2 = new block(80, 0, 180, 5);
 
     while(!glfwWindowShouldClose(window))
     {   
