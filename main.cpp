@@ -9,7 +9,21 @@
 #include "GLAssert.h"
 #include "block.h"
 
+bool DoTouch(block *boi1, block *boi2){
+    if (((boi1->Xpos + boi1->size) > (boi2->Xpos - boi2->size)) &&
+        ((boi1->Xpos - boi1->size) < (boi2->Xpos + boi2->size)) &&
+        ((boi1->Ypos + boi1->size) > (boi2->Ypos - boi2->size)) &&
+        ((boi1->Ypos - boi1->size) < (boi2->Ypos + boi2->size))){
+            boi1->back();
+            boi2->back();
 
+            boi1->direction = 180;
+            boi2->direction = 0;
+
+            return true;
+        }
+    return false;
+}
 
 int main(void){
     GLFWwindow* window;
@@ -126,7 +140,11 @@ int main(void){
             Entities[i].update(); 
         }
 
-        if ((Entities[0].Xpos + Entities[0].size) > (Entities[1].Xpos - Entities[1].size)){
+        if (DoTouch(&Entities[0], &Entities[1])){
+            Entities.push_back({ block(30, 40, 0, 1, program) });
+        }
+
+        /*if ((Entities[0].Xpos + Entities[0].size) > (Entities[1].Xpos - Entities[1].size)){
             Entities[0].back();
             Entities[1].back();
 
@@ -134,7 +152,7 @@ int main(void){
             Entities[1].direction = 0;
 
             Entities.push_back({ block(30, 40, 0, 1, program) });
-        }
+        }*/
 
         if ((Entities[0].Xpos - Entities[0].size) < -100){
             Entities[0].back();
