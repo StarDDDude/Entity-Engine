@@ -4,9 +4,11 @@
 #include <glm/glm.hpp>
 
 #include <iostream>
+#include <vector>
 
 #include "GLAssert.h"
 #include "block.h"
+
 
 
 int main(void){
@@ -111,35 +113,42 @@ int main(void){
     GLCall(glUseProgram(program));
 
 
+    std::vector<block> Entities;
 
-    block* boi1 = new block(-30, 0, 0, 8, program);
-    block* boi2 = new block(80, 0, 180, 10, program);
+    Entities.push_back({ block(0, 0, 0, 3, program) });
+    Entities.push_back({ block(80, 0, 180, 1, program) });
 
     while(!glfwWindowShouldClose(window))
     {
         GLCall(glClear(GL_COLOR_BUFFER_BIT));
-        boi1->update();
-        boi2->update();
 
-        if ((boi1->Xpos + boi1->size) > (boi2->Xpos - boi2->size)){
-            boi1->back();
-            boi2->back();
-            boi1->direction = 180;
-            boi2->direction = 0;
+        for (int i=0; i<Entities.size(); i++){
+            Entities[i].update(); 
         }
 
-        if ((boi1->Xpos - boi1->size) < -70){
-            boi1->back();
-            boi1->direction = 0;
+        if ((Entities[0].Xpos + Entities[0].size) > (Entities[1].Xpos - Entities[1].size)){
+            Entities[0].back();
+            Entities[1].back();
+
+            Entities[0].direction = 180;
+            Entities[1].direction = 0;
+
+            Entities.push_back({ block(30, 40, 0, 1, program) });
         }
-        if ((boi2->Xpos + boi2->size) > 130){
-            boi2->back();
-            boi2->direction = 180;
+
+        if ((Entities[0].Xpos - Entities[0].size) < -100){
+            Entities[0].back();
+            Entities[0].direction = 0;
+        }
+        if ((Entities[1].Xpos + Entities[1].size) > 100){
+            Entities[1].back();
+            Entities[1].direction = 180;
         }
 
 
-        boi1->draw(*boi1);                  //Create Universal Draw Function
-        boi1->draw(*boi2);                  //instead of Draw Function for every object
+        for (int i=0; i<Entities.size(); i++){
+            Entities[0].draw(Entities[i]); 
+        }
 
         glfwSwapBuffers(window);
         glfwPollEvents();
