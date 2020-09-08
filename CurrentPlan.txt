@@ -3,6 +3,5 @@
 1.2 Add shader Loading system
 
 2.0 Add actual functionality
-2.1 System for handling entities
-
+2.1 System for handling entities        [Partly Completed, Objects can be dynamically allocated]
 3 Clean up code
