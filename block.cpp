@@ -6,12 +6,12 @@
 
 #include "GLAssert.h"
 
-block::block(int i_Xpos, int i_Ypos, int i_direction, int i_speed, unsigned int i_program){
+block::block(int i_Xpos, int i_Ypos, int i_direction, int i_speed, unsigned int i_size, unsigned int i_program){
     direction = i_direction;
     speed = i_speed;
     Xpos = i_Xpos;
     Ypos = i_Ypos;
-    size = 5;
+    size = i_size;
     program = i_program;
 
     float g_verticies[8]{                        //g_ for graphics related variables and functions
@@ -51,6 +51,32 @@ void block::back(){
     Xpos = Xpos - speed * cos(direction*M_PI/180);
     Ypos = Ypos - speed * sin(direction*M_PI/180);
 }
+
+void block::touch(int Xdistance, int Ydistance){
+    back();
+    if (Xdistance > Ydistance){
+        direction += 180 - direction - (direction*int((direction > 90) && (direction < 270)));
+    } else {
+        direction += 180 - (direction - 90);
+    }
+}
+
+void block::wall(){
+    if((Xpos - size) < -100){
+        back();
+        direction += 180 - direction-direction;
+    } else if((Xpos + size) > 100){
+        back();
+        direction += 180 - direction-direction;
+    } else if((Ypos - size) < -100){
+        back();
+        direction += 180 - (direction + 90)-(direction + 90);
+    } else if((Ypos + size) > 100){
+        back();
+        direction += 180 - (direction + 90)-(direction + 90);
+    }
+}
+
 
 void block::draw(block Uniform){
     GLCall(glBindVertexArray(VertexA_ID));
