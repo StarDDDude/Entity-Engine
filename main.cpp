@@ -9,20 +9,17 @@
 #include "GLAssert.h"
 #include "block.h"
 
-bool DoTouch(block *boi1, block *boi2){
-    if (((boi1->Xpos + boi1->size) > (boi2->Xpos - boi2->size)) &&
-        ((boi1->Xpos - boi1->size) < (boi2->Xpos + boi2->size)) &&
-        ((boi1->Ypos + boi1->size) > (boi2->Ypos - boi2->size)) &&
-        ((boi1->Ypos - boi1->size) < (boi2->Ypos + boi2->size))){
-            boi1->back();
-            boi2->back();
+bool DoTouch(block *boi1, block *boi2, std::vector<block> *EntityArray, int program){
 
-            boi1->direction = 180;
-            boi2->direction = 0;
+    int Xdistance = abs(boi1->Xpos - boi2->Xpos) - (boi1->size + boi2->size);
+    int Ydistance = abs(boi1->Ypos - boi2->Ypos) - (boi1->size + boi2->size);
 
-            return true;
-        }
-    return false;
+    if ((Xdistance < 0) && (Ydistance < 0)){
+        boi1->touch(Xdistance, Ydistance);
+        boi2->touch(Xdistance, Ydistance);
+        EntityArray->push_back({ block(0, 40, 0, 1, 1, program) });
+    }
+
 }
 
 int main(void){
@@ -129,40 +126,30 @@ int main(void){
 
     std::vector<block> Entities;
 
-    Entities.push_back({ block(0, 0, 0, 3, program) });
-    Entities.push_back({ block(80, 0, 180, 1, program) });
+    Entities.push_back({ block(0, 0, 350, 4, 2, program) });
+    Entities.push_back({ block(85, 0, 190, 4, 2, program) });
 
     while(!glfwWindowShouldClose(window))
     {
         GLCall(glClear(GL_COLOR_BUFFER_BIT));
 
-        for (int i=0; i<Entities.size(); i++){
-            Entities[i].update(); 
+        for (int i=0; i < Entities.size(); i++){
+            Entities[i].update();
+            Entities[i].wall(); 
         }
 
-        if (DoTouch(&Entities[0], &Entities[1])){
-            Entities.push_back({ block(30, 40, 0, 1, program) });
+        for (int i1=0, i2=1; i2 < Entities.size();){
+            DoTouch(&Entities[i1], &Entities[i2], &Entities, program);
+
+            i1++;
+            if(i1 == i2){
+                i1++;
+            }
+            if(i1 >= Entities.size()){
+                i2++;
+                i1 = i2+1;
+            }
         }
-
-        /*if ((Entities[0].Xpos + Entities[0].size) > (Entities[1].Xpos - Entities[1].size)){
-            Entities[0].back();
-            Entities[1].back();
-
-            Entities[0].direction = 180;
-            Entities[1].direction = 0;
-
-            Entities.push_back({ block(30, 40, 0, 1, program) });
-        }*/
-
-        if ((Entities[0].Xpos - Entities[0].size) < -100){
-            Entities[0].back();
-            Entities[0].direction = 0;
-        }
-        if ((Entities[1].Xpos + Entities[1].size) > 100){
-            Entities[1].back();
-            Entities[1].direction = 180;
-        }
-
 
         for (int i=0; i<Entities.size(); i++){
             Entities[0].draw(Entities[i]); 
