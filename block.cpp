@@ -3,6 +3,9 @@
 #include <glm/glm.hpp>
 
 #include <math.h>
+#include <random>
+#include <time.h>
+
 
 #include "GLAssert.h"
 
@@ -13,12 +16,13 @@ block::block(int i_Xpos, int i_Ypos, int i_direction, int i_speed, unsigned int 
     Ypos = i_Ypos;
     size = i_size;
     program = i_program;
+    srand(time(NULL));
 
     float g_verticies[8]{                        //g_ for graphics related variables and functions
-        float(Xpos-size)/100.0f, float(Ypos-size)/100.0f,
-        float(Xpos+size)/100.0f, float(Ypos-size)/100.0f,
-        float(Xpos+size)/100.0f, float(Ypos+size)/100.0f,
-        float(Xpos-size)/100.0f, float(Ypos+size)/100.0f,
+        float(-size)/100.0f, float(-size)/100.0f,
+        float(+size)/100.0f, float(-size)/100.0f,
+        float(+size)/100.0f, float(+size)/100.0f,
+        float(-size)/100.0f, float(+size)/100.0f,
     };
    
     unsigned int g_indicies[6]{
@@ -55,37 +59,24 @@ void block::back(){
 void block::touch(int Xdistance, int Ydistance){
     back();
     if (Xdistance > Ydistance){
-        direction += 180 - direction - (direction*int((direction > 90) && (direction < 270)));
+        direction += 180 - direction - (direction*int((direction > 90) && (direction < 270))) + (rand() % 20 -10);
     } else {
-        direction += 180 - (direction - 90);
+        direction += 180 - (direction - 90) - (direction + 90) + (rand() % 20 -10);
     }
 }
 
 void block::wall(){
     if((Xpos - size) < -100){
         back();
-        direction += 180 - direction-direction;
+        direction += 180 - direction-direction + (rand() % 20 -10);
     } else if((Xpos + size) > 100){
         back();
-        direction += 180 - direction-direction;
+        direction += 180 - direction-direction + (rand() % 20 -10);
     } else if((Ypos - size) < -100){
         back();
-        direction += 180 - (direction + 90)-(direction + 90);
+        direction += 180 - (direction + 90)-(direction + 90) + (rand() % 20 -10);
     } else if((Ypos + size) > 100){
         back();
-        direction += 180 - (direction + 90)-(direction + 90);
+        direction += 180 - (direction + 90)-(direction + 90) + (rand() % 20 -10);
     }
-}
-
-
-void block::draw(block Uniform){
-    GLCall(glBindVertexArray(VertexA_ID));
-    GLCall(glBindBuffer(GL_ARRAY_BUFFER, VertexB_ID));
-    GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, Index_ID));
-
-    GLCall(glUseProgram(program));
-    GLCall(glUniform2f(glGetUniformLocation(program, "Pos"), float(Uniform.Xpos)/100.0f, float(Uniform.Ypos)/100.0f));
-
-    GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
-
 }

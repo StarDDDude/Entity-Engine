@@ -1,15 +1,11 @@
 1.0 Add Graphics                    [Partly Completed]
 1.1 Add Transformations             [Finished, though messy, MUST move draw function]
--> Transormations can't be easily detected as sch and are hardly edite-able
--> Initial position of first block moves transfrmation (Why?)
+-> Transormations can't be easily detected as such and are hardly edit-able
 1.2 Add shader Loading system
+1.3 Stop reusing the same data on different VBO
 
 2.0 Add actual functionality                [Partly Completed, System for handling objects and behaviour exists]
 2.1 Clean up functionality
 -> Collisions and Border detection are handeled seperately
-2.2 Fix functionality
--> Blocks start aiming directlyonto he walls
--> many collisions at once seem to create this effect
-
 
 3 Clean up code
