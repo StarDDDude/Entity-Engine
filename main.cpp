@@ -4,37 +4,16 @@
 #include <glm/glm.hpp>
 
 #include <iostream>
+#include <time.h>
 #include <vector>
 
 #include "GLAssert.h"
 #include "block.h"
 
-void DoTouch(block *boi1, block *boi2, std::vector<block> *EntityArray, int program){
-
-    int Xdistance = abs(boi1->Xpos - boi2->Xpos) - (boi1->size + boi2->size);
-    int Ydistance = abs(boi1->Ypos - boi2->Ypos) - (boi1->size + boi2->size);
-
-    if ((Xdistance < 0) && (Ydistance < 0)){
-        boi1->touch(Xdistance, Ydistance);
-        boi2->touch(Xdistance, Ydistance);
-        EntityArray->push_back({ block(0, 40, 10, 3, 2, program) });
-    }
-}
-
-void draw(block *boi){
-    GLCall(glBindVertexArray(boi->VertexA_ID));
-    GLCall(glBindBuffer(GL_ARRAY_BUFFER, boi->VertexB_ID));
-    GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, boi->Index_ID));
-
-    GLCall(glUseProgram(boi->program));
-    GLCall(glUniform2f(glGetUniformLocation(boi->program, "Pos"), float(boi->Xpos)/100.0f, float(boi->Ypos)/100.0f));
-
-    GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
-}
-
 
 int main(void){
     GLFWwindow* window;
+    srand(time(NULL));
 
     if (!glfwInit())
         return -1;
@@ -78,10 +57,11 @@ int main(void){
         "#version 330 core\n"
         "\n"
         "layout(location = 0) out vec4 color;\n"
+        "uniform vec4 Col;"
         "\n"
         "void main(){\n"
         "\n"
-        "color = vec4(1.0f, 0.0f, 0.0f, 1.0f);\n"
+        "color = Col;\n"
         "\n"
         "}";
 
@@ -137,8 +117,8 @@ int main(void){
 
     std::vector<block> Entities;
 
-    Entities.push_back({ block(0, 0, 350, 1, 3, program) });
-    Entities.push_back({ block(85, 0, 190, 1, 1, program) });
+    Entities.push_back({ block(program) });
+    Entities.push_back({ block(program) });
 
     while(!glfwWindowShouldClose(window))
     {
@@ -151,7 +131,7 @@ int main(void){
 
         for (int i1=0, i2=1; i2 < Entities.size();){
             
-            DoTouch(&Entities[i1], &Entities[i2], &Entities, program);
+            Entities[i1].BlockTouch(&Entities[i2], &Entities, program);
 
             i2++;
             if(i2 >= Entities.size()){
@@ -161,7 +141,7 @@ int main(void){
         }
 
         for (int i=0; i<Entities.size(); i++){
-            draw(&Entities[i]);
+            Entities[i].draw();
         }
 
         glfwSwapBuffers(window);

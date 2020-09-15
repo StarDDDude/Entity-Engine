@@ -7,5 +7,9 @@
 2.0 Add actual functionality                [Partly Completed, System for handling objects and behaviour exists]
 2.1 Clean up functionality
 -> Collisions and Border detection are handeled seperately
+-> Create Collision object for Border? Probably yes
+2.2 Add unique types of objects
+-> Each unique object could have a different VBO
+2.3 Add Controlls
 
 3 Clean up code
