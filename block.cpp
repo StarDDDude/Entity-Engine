@@ -9,9 +9,9 @@
 #include "GLAssert.h"
 
 block::block(unsigned int i_program){
-    size = rand() % 3+1;
-    direction = rand() % 360+1;
-    speed = rand() % 4+1;
+    size = 1+static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/3));
+    direction = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/360));
+    speed = 1+static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/4));
     Xpos = rand() % int(201 - 2*size) - (100 - size);
     Ypos = rand() % int(201 - 2*size) - (100 - size);
     R = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
