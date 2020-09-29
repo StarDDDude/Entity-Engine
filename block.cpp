@@ -5,10 +5,10 @@
 #include <math.h>
 #include <random>
 
-
 #include "GLAssert.h"
 
 block::block(unsigned int i_program){
+    Type = 10;
     size = 1+static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/3));
     direction = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/360));
     speed = 1+static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/4));
@@ -104,4 +104,8 @@ void block::wall(){
         back();
         direction += 180 - (direction + 90)-(direction + 90) + (rand() % 20 -10);
     }
+}
+
+void block::output(){
+    std::cout << "a";
 }

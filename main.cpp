@@ -30,7 +30,6 @@ int main(void){
 
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
-    
     if(glewInit() != GLEW_OK){
         std::cout << "glewInit error" << std::endl;
     }
@@ -115,33 +114,40 @@ int main(void){
     GLCall(glUseProgram(program));
 
 
-    std::vector<block> Entities;
+    std::vector<void*> Entities;                        //Proper Entity array that can index to multiple different types
+    Entities.push_back({ new block(program) });         //Type of Entity is Defined at the beginning of the object
+    std::cout << *(unsigned int*)Entities[0];           //Example of how to get type of the object
+    std::cout.flush();                                  //General definition of getting type: *(unsigned char*)Entities[n]
+    //General definition of getting object with known type:
+    //(*(<Type>*)Entities[n]).<member>
 
-    Entities.push_back({ block(program) });
-    Entities.push_back({ block(program) });
+    std::vector<block> BlockOnly;
+
+    BlockOnly.push_back({ block(program) });
+    BlockOnly.push_back({ block(program) });
 
     while(!glfwWindowShouldClose(window))
     {
         GLCall(glClear(GL_COLOR_BUFFER_BIT));
 
-        for (int i=0; i < Entities.size(); i++){
-            Entities[i].update();
-            Entities[i].wall(); 
+        for (int i=0; i < BlockOnly.size(); i++){
+            BlockOnly[i].update();
+            BlockOnly[i].wall(); 
         }
 
-        for (int i1=0, i2=1; i2 < Entities.size();){
+        for (int i1=0, i2=1; i2 < BlockOnly.size();){
             
-            Entities[i1].BlockTouch(&Entities[i2], &Entities, program);
+            BlockOnly[i1].BlockTouch(&BlockOnly[i2], &BlockOnly, program);
 
             i2++;
-            if(i2 >= Entities.size()){
+            if(i2 >= BlockOnly.size()){
                 i1++;
                 i2 = i1+1;
             }
         }
 
-        for (int i=0; i<Entities.size(); i++){
-            Entities[i].draw();
+        for (int i=0; i<BlockOnly.size(); i++){
+            BlockOnly[i].draw();
         }
 
         glfwSwapBuffers(window);

@@ -5,6 +5,7 @@
 
 class block {
 public:
+    unsigned char Type;
     float Xpos;
     float Ypos;
     float size;    
@@ -27,4 +28,6 @@ public:
     void BlockTouch(block *boi2, std::vector<block> *EA, int program);
     void wall();
     void draw();
+
+    void output();
 };
