@@ -5,10 +5,7 @@
 
 class block {
 public:
-<<<<<<< HEAD
-=======
     unsigned char Type;
->>>>>>> f5733d91f322c9382eea0fc6602f2357781b93c8
     float Xpos;
     float Ypos;
     float size;    
@@ -28,12 +25,9 @@ public:
     void update();
     void back();
     void OnTouch(int Xdistance, int Ydistance);
-    void BlockTouch(block *boi2, std::vector<block> *EA, int program);
+    void BlockTouch(block *boi2, std::vector<void*> *EA, int program);
     void wall();
     void draw();
-<<<<<<< HEAD
-=======
 
     void output();
->>>>>>> f5733d91f322c9382eea0fc6602f2357781b93c8
 };

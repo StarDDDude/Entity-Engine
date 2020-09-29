@@ -114,66 +114,48 @@ int main(void){
     GLCall(glUseProgram(program));
 
 
-<<<<<<< HEAD
-    std::vector<block> Entities;
-
-    Entities.push_back({ block(program) });
-    Entities.push_back({ block(program) });
-=======
-    std::vector<void*> Entities;                        //Proper Entity array that can index to multiple different types
-    Entities.push_back({ new block(program) });         //Type of Entity is Defined at the beginning of the object
-    std::cout << *(unsigned int*)Entities[0];           //Example of how to get type of the object
-    std::cout.flush();                                  //General definition of getting type: *(unsigned char*)Entities[n]
-    //General definition of getting object with known type:
+    std::vector<void*> Entities;
+    //Entity array that can index to multiple different types
+    //Type of Entity is Defined at the beginning of the object in an unsigned char
+    
+    //General definition of getting type:
+    //*(unsigned char*)Entities[n]
+    
+    //General definition of getting object member with known type:
     //(*(<Type>*)Entities[n]).<member>
 
-    std::vector<block> BlockOnly;
-
-    BlockOnly.push_back({ block(program) });
-    BlockOnly.push_back({ block(program) });
->>>>>>> f5733d91f322c9382eea0fc6602f2357781b93c8
 
     while(!glfwWindowShouldClose(window))
     {
         GLCall(glClear(GL_COLOR_BUFFER_BIT));
 
-<<<<<<< HEAD
         for (int i=0; i < Entities.size(); i++){
-            Entities[i].update();
-            Entities[i].wall(); 
+            switch(*(unsigned char*)Entities[i]){
+                case 0 : (*(block*)Entities[i]).update(); (*(block*)Entities[i]).wall(); break;
+                default: std::cout << "Please fix your bullshit"; std::cout.flush(); 
+            }
         }
 
         for (int i1=0, i2=1; i2 < Entities.size();){
-            
-            Entities[i1].BlockTouch(&Entities[i2], &Entities, program);
+            unsigned int Type1 = *(unsigned char*)Entities[i1];
+            unsigned int Type2 = *(unsigned char*)Entities[i2];
+
+            if ((Type1 == 0) && (Type2 == 0)){
+                (*(block*)Entities[i1]).BlockTouch((block*)Entities[i2], &Entities, program);
+            }
 
             i2++;
             if(i2 >= Entities.size()){
-=======
-        for (int i=0; i < BlockOnly.size(); i++){
-            BlockOnly[i].update();
-            BlockOnly[i].wall(); 
-        }
-
-        for (int i1=0, i2=1; i2 < BlockOnly.size();){
-            
-            BlockOnly[i1].BlockTouch(&BlockOnly[i2], &BlockOnly, program);
-
-            i2++;
-            if(i2 >= BlockOnly.size()){
->>>>>>> f5733d91f322c9382eea0fc6602f2357781b93c8
                 i1++;
                 i2 = i1+1;
             }
         }
 
-<<<<<<< HEAD
         for (int i=0; i<Entities.size(); i++){
-            Entities[i].draw();
-=======
-        for (int i=0; i<BlockOnly.size(); i++){
-            BlockOnly[i].draw();
->>>>>>> f5733d91f322c9382eea0fc6602f2357781b93c8
+            switch(*(unsigned char*)Entities[i]){
+                case 0 : (*(block*)Entities[i]).draw(); break;
+                default: std::cout << "Please fix your bullshit"; std::cout.flush();
+            }
         }
 
         glfwSwapBuffers(window);

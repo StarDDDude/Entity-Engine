@@ -5,17 +5,10 @@
 #include <math.h>
 #include <random>
 
-<<<<<<< HEAD
-
 #include "GLAssert.h"
 
 block::block(unsigned int i_program){
-=======
-#include "GLAssert.h"
-
-block::block(unsigned int i_program){
-    Type = 10;
->>>>>>> f5733d91f322c9382eea0fc6602f2357781b93c8
+    Type = 0;
     size = 1+static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/3));
     direction = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/360));
     speed = 1+static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/4));
@@ -85,14 +78,14 @@ void block::OnTouch(int Xdistance, int Ydistance){
     }
 }
 
-void block::BlockTouch(block *Obj, std::vector<block> *EA, int program){
+void block::BlockTouch(block *Obj, std::vector<void*> *EA, int program){
     int Xdistance = abs(Xpos - Obj->Xpos) - (size + Obj->size);
     int Ydistance = abs(Ypos - Obj->Ypos) - (size + Obj->size);
 
     if ((Xdistance < 0) && (Ydistance < 0)){
         OnTouch(Xdistance, Ydistance);
         Obj->OnTouch(Xdistance, Ydistance);
-        EA->push_back({ block(program) });
+        EA->push_back({ new block(program) });
     }
 }
 
@@ -111,11 +104,8 @@ void block::wall(){
         back();
         direction += 180 - (direction + 90)-(direction + 90) + (rand() % 20 -10);
     }
-<<<<<<< HEAD
-=======
 }
 
 void block::output(){
     std::cout << "a";
->>>>>>> f5733d91f322c9382eea0fc6602f2357781b93c8
 }
