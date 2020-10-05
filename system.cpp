@@ -1,4 +1,9 @@
 #include "math.h"
+#include <vector>
+#include <iostream>
+
+#include "system.h"
+
 
 bool CollideCC(float XPos1, float YPos1, float Radius1, float XPos2, float YPos2, float Radius2){
     float SideX = abs(XPos1-XPos2);
@@ -37,3 +42,17 @@ bool CollideCR(float XPosR, float YPosR, float SizeXR, float SizeYR, float XPosC
 
     return true;
 }
+
+void CheckCollisions(){
+    
+}
+
+void Update(std::vector<void*> *Entities){
+    for(int i=0; i<Entities->size(); i++){
+        unsigned char type = *(unsigned char*)(&Entities[i]);
+        switch(type){
+            case 0 : (*(block*)&Entities[i]).update(); break;
+            default: std::cout << "[ERROR]:Entity was detected with an invalid Entity ID" << std::endl; std::cout.flush();
+        }
+    }
+};

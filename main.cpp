@@ -9,6 +9,7 @@
 
 #include "GLAssert.h"
 #include "block.h"
+#include "system.h"
 
 
 int main(void){
@@ -124,6 +125,14 @@ int main(void){
     //General definition of getting object member with known type:
     //(*(<Type>*)Entities[n]).<member>
 
+    Entities.push_back( {new block(program)} );
+    Entities.push_back( {new block(program)} );
+    Entities.push_back( {new block(program)} );
+    Entities.push_back( {new block(program)} );
+    Entities.push_back( {new block(program)} );
+    Entities.push_back( {new block(program)} );
+    Entities.push_back( {new block(program)} );
+    Entities.push_back( {new block(program)} );
 
     while(!glfwWindowShouldClose(window))
     {
@@ -135,6 +144,8 @@ int main(void){
                 default: std::cout << "Please fix your bullshit"; std::cout.flush(); 
             }
         }
+
+        Update(&Entities);
 
         for (int i1=0, i2=1; i2 < Entities.size();){
             unsigned int Type1 = *(unsigned char*)Entities[i1];
