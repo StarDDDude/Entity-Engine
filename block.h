@@ -25,7 +25,7 @@ public:
     void update();
     void back();
     void OnTouch(int Xdistance, int Ydistance);
-    void BlockTouch(block *boi2, std::vector<void*> *EA, int program);
+    void BlockTouch(block *boi2, std::vector<void*> *EA, unsigned int program);
     void wall();
     void draw();
 

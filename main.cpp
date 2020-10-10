@@ -114,53 +114,33 @@ int main(void){
 
     GLCall(glUseProgram(program));
 
-
+    /*! @brief Vector holding pointers to Objects that can be of multiple different types.
+     * 
+     * At the start of each Entity is listed its type.
+     * 
+     * @param[in] GettingType *(unsigned char*)Entities[i]
+     * @param[in] GettingMember *(<Type>*)Entities[i].<member>
+     */
     std::vector<void*> Entities;
-    //Entity array that can index to multiple different types
-    //Type of Entity is Defined at the beginning of the object in an unsigned char
-    
-    //General definition of getting type:
-    //*(unsigned char*)Entities[n]
-    
-    //General definition of getting object member with known type:
-    //(*(<Type>*)Entities[n]).<member>
 
-    Entities.push_back( {new block(program)} );
-    Entities.push_back( {new block(program)} );
-    Entities.push_back( {new block(program)} );
-    Entities.push_back( {new block(program)} );
-    Entities.push_back( {new block(program)} );
-    Entities.push_back( {new block(program)} );
-    Entities.push_back( {new block(program)} );
-    Entities.push_back( {new block(program)} );
+    Entities.reserve(8);
+    Entities.emplace_back( new block(program) );
+    Entities.emplace_back( new block(program) );
+    Entities.emplace_back( new block(program) );
+    Entities.emplace_back( new block(program) );
+    Entities.emplace_back( new block(program) );
+    Entities.emplace_back( new block(program) );
+    Entities.emplace_back( new block(program) );
+    Entities.emplace_back( new block(program) );
 
     while(!glfwWindowShouldClose(window))
     {
         GLCall(glClear(GL_COLOR_BUFFER_BIT));
 
-        for (int i=0; i < Entities.size(); i++){
-            switch(*(unsigned char*)Entities[i]){
-                case 0 : (*(block*)Entities[i]).update(); (*(block*)Entities[i]).wall(); break;
-                default: std::cout << "Please fix your bullshit"; std::cout.flush(); 
-            }
-        }
-
         Update(&Entities);
 
-        for (int i1=0, i2=1; i2 < Entities.size();){
-            unsigned int Type1 = *(unsigned char*)Entities[i1];
-            unsigned int Type2 = *(unsigned char*)Entities[i2];
+        CheckCollisions(&Entities, program);
 
-            if ((Type1 == 0) && (Type2 == 0)){
-                (*(block*)Entities[i1]).BlockTouch((block*)Entities[i2], &Entities, program);
-            }
-
-            i2++;
-            if(i2 >= Entities.size()){
-                i1++;
-                i2 = i1+1;
-            }
-        }
 
         for (int i=0; i<Entities.size(); i++){
             switch(*(unsigned char*)Entities[i]){

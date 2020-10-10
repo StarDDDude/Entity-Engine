@@ -4,6 +4,10 @@
 
 #include "system.h"
 
+struct CollisionType{
+    unsigned char Type1;
+    unsigned char Type2;
+};
 
 bool CollideCC(float XPos1, float YPos1, float Radius1, float XPos2, float YPos2, float Radius2){
     float SideX = abs(XPos1-XPos2);
@@ -43,16 +47,29 @@ bool CollideCR(float XPosR, float YPosR, float SizeXR, float SizeYR, float XPosC
     return true;
 }
 
-void CheckCollisions(){
-    
-}
-
 void Update(std::vector<void*> *Entities){
     for(int i=0; i<Entities->size(); i++){
-        unsigned char type = *(unsigned char*)(&Entities[i]);
+        unsigned char type = *(unsigned char*)(*Entities)[i];
         switch(type){
-            case 0 : (*(block*)&Entities[i]).update(); break;
+            case 0 : (*(block*)(*Entities)[i]).update(); (*(block*)(*Entities)[i]).wall(); break;
             default: std::cout << "[ERROR]:Entity was detected with an invalid Entity ID" << std::endl; std::cout.flush();
         }
     }
-};
+}
+
+void CheckCollisions(std::vector<void*> *Entities, unsigned int program){
+    for(int i=1, j=0; i < Entities->size();){
+        unsigned char TypeA = *(unsigned char*)(*Entities)[i];
+        unsigned char TypeB = *(unsigned char*)(*Entities)[j];
+        
+        if ((TypeA == 0) && (TypeB == 0)) {
+            (*(block*)(*Entities)[j]).BlockTouch((block*)(*Entities)[i], Entities, program);
+        }
+        
+        i++;
+        if(i >= Entities->size()){
+            j++;
+            i = j+1;
+        }
+    }
+}

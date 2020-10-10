@@ -78,7 +78,7 @@ void block::OnTouch(int Xdistance, int Ydistance){
     }
 }
 
-void block::BlockTouch(block *Obj, std::vector<void*> *EA, int program){
+void block::BlockTouch(block *Obj, std::vector<void*> *EA, unsigned int program){
     int Xdistance = abs(Xpos - Obj->Xpos) - (size + Obj->size);
     int Ydistance = abs(Ypos - Obj->Ypos) - (size + Obj->size);
 
