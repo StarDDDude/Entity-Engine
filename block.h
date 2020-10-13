@@ -5,7 +5,7 @@
 
 class block {
 public:
-    unsigned char Type;
+    unsigned char type;
     float Xpos;
     float Ypos;
     float size;    

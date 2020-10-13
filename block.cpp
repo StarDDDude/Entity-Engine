@@ -7,17 +7,19 @@
 
 #include "GLAssert.h"
 
-block::block(unsigned int i_program){
-    Type = 0;
+block::block(unsigned int i_program)
+    : type(0), program(i_program)
+{
     size = 1+static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/3));
     direction = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/360));
     speed = 1+static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/4));
     Xpos = rand() % int(201 - 2*size) - (100 - size);
     Ypos = rand() % int(201 - 2*size) - (100 - size);
+    
     R = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
     G = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
     B = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-    program = i_program;
+    
 
     float g_verticies[8]{                        //g_ for graphics related variables and functions
         float(-size)/100.0f, float(-size)/100.0f,

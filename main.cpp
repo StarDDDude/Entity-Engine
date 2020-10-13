@@ -10,6 +10,7 @@
 #include "GLAssert.h"
 #include "block.h"
 #include "system.h"
+#include "shader.h"
 
 
 int main(void){
@@ -40,7 +41,7 @@ int main(void){
     //
     //
     //
-
+    /*
     const char* VS_src = 
         "#version 330 core\n"
         "\n"
@@ -66,7 +67,7 @@ int main(void){
         "}";
 
 
-    GLuint VS_ID, FS_ID, program;
+    GLuint VS_ID, FS_ID, wooow.program;
 
 
     program = glCreateProgram();
@@ -114,6 +115,10 @@ int main(void){
 
     GLCall(glUseProgram(program));
 
+    */
+
+   shader wooow("shaders/VertexShader.glsl", "shaders/FragmentShader.glsl");
+
     /*! @brief Vector holding pointers to Objects that can be of multiple different types.
      * 
      * At the start of each Entity is listed its type.
@@ -124,14 +129,14 @@ int main(void){
     std::vector<void*> Entities;
 
     Entities.reserve(8);
-    Entities.emplace_back( new block(program) );
-    Entities.emplace_back( new block(program) );
-    Entities.emplace_back( new block(program) );
-    Entities.emplace_back( new block(program) );
-    Entities.emplace_back( new block(program) );
-    Entities.emplace_back( new block(program) );
-    Entities.emplace_back( new block(program) );
-    Entities.emplace_back( new block(program) );
+    Entities.emplace_back( new block(wooow.program) );
+    Entities.emplace_back( new block(wooow.program) );
+    Entities.emplace_back( new block(wooow.program) );
+    Entities.emplace_back( new block(wooow.program) );
+    Entities.emplace_back( new block(wooow.program) );
+    Entities.emplace_back( new block(wooow.program) );
+    Entities.emplace_back( new block(wooow.program) );
+    Entities.emplace_back( new block(wooow.program) );
 
     while(!glfwWindowShouldClose(window))
     {
@@ -139,9 +144,9 @@ int main(void){
 
         Update(&Entities);
 
-        CheckCollisions(&Entities, program);
+        CheckCollisions(&Entities, wooow.program);
 
-
+        
         for (int i=0; i<Entities.size(); i++){
             switch(*(unsigned char*)Entities[i]){
                 case 0 : (*(block*)Entities[i]).draw(); break;

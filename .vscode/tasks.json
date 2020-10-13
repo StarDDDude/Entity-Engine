@@ -9,6 +9,7 @@
                 "${workspaceFolder}/main.cpp",
                 "${workspaceFolder}/block.cpp",
                 "${workspaceFolder}/system.cpp",
+                "${workspaceFolder}/shader.cpp",
                 "${workspaceFolder}/GLAssert.cpp",
                 "-o",
                 "${workspaceFolder}/Build",
