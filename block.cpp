@@ -7,6 +7,10 @@
 
 #include "GLAssert.h"
 
+unsigned int block::VertexB_ID;
+unsigned int block::VertexA_ID;
+unsigned int block::Index_ID;
+
 block::block(unsigned int i_program)
     : type(0), program(i_program)
 {
@@ -22,10 +26,10 @@ block::block(unsigned int i_program)
     
 
     float g_verticies[8]{                        //g_ for graphics related variables and functions
-        float(-size)/100.0f, float(-size)/100.0f,
-        float(+size)/100.0f, float(-size)/100.0f,
-        float(+size)/100.0f, float(+size)/100.0f,
-        float(-size)/100.0f, float(+size)/100.0f,
+        -1.0f, -1.0f,
+        +1.0f, -1.0f,
+        +1.0f, +1.0f,
+        -1.0f, +1.0f,
     };
    
     unsigned int g_indicies[6]{
@@ -55,7 +59,8 @@ void block::draw(){
     GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, Index_ID));
 
     GLCall(glUseProgram(program));
-    GLCall(glUniform2f(glGetUniformLocation(program, "Pos"), float(Xpos)/100.0f, float(Ypos)/100.0f));
+    GLCall(glUniform2f(glGetUniformLocation(program, "pos"), float(Xpos), float(Ypos)));
+    GLCall(glUniform1f(glGetUniformLocation(program, "size"), float(size)));
     GLCall(glUniform4f(glGetUniformLocation(program, "Col"), R, G, B, 1.0));
 
     GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));

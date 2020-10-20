@@ -16,9 +16,9 @@ public:
     float G;
     float B;
 
-    unsigned int VertexB_ID;
-    unsigned int VertexA_ID;
-    unsigned int Index_ID;
+    static unsigned int VertexB_ID;
+    static unsigned int VertexA_ID;
+    static unsigned int Index_ID;
     unsigned int program;
 
     block(unsigned int i_program);        //i_ for inititializer variables
