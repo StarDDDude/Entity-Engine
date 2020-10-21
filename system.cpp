@@ -47,11 +47,11 @@ bool CollideCR(float XPosR, float YPosR, float SizeXR, float SizeYR, float XPosC
     return true;
 }
 
-void Update(std::vector<void*> *Entities){
+void Update(std::vector<void*> *Entities, int wall){
     for(int i=0; i<Entities->size(); i++){
         unsigned char type = *(unsigned char*)(*Entities)[i];
         switch(type){
-            case 0 : (*(block*)(*Entities)[i]).update(); (*(block*)(*Entities)[i]).wall(); break;
+            case 0 : (*(block*)(*Entities)[i]).update(); (*(block*)(*Entities)[i]).wall(wall); break;
             default: std::cout << "[ERROR]:Entity was detected with an invalid Entity ID" << std::endl; std::cout.flush();
         }
     }

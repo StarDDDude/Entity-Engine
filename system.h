@@ -10,4 +10,4 @@ bool CollideCR(float XPosR, float YPosR, float SizeXR, float SizeYR, float XPosC
 
 void CheckCollisions(std::vector<void*> *Entities, unsigned int program);
 
-void Update(std::vector<void*> *Entities);
+void Update(std::vector<void*> *Entities, int wall);

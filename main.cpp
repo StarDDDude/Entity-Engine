@@ -48,22 +48,41 @@ int main(void){
      */
     std::vector<void*> Entities;
 
-    Entities.reserve(8);
+    Entities.reserve(30);
+    Entities.emplace_back( new block(wooow.program) );
+    (*(block*)Entities[0]).FIRST_VertexB_ID = (*(block*)Entities[0]).VertexB_ID;
+    (*(block*)Entities[0]).FIRST_VertexA_ID = (*(block*)Entities[0]).VertexA_ID;
+    (*(block*)Entities[0]).FIRST_Index_ID = (*(block*)Entities[0]).Index_ID;
+    Entities.emplace_back( new block(wooow.program) );
+    Entities.emplace_back( new block(wooow.program) );
+    Entities.emplace_back( new block(wooow.program) );
     Entities.emplace_back( new block(wooow.program) );
     Entities.emplace_back( new block(wooow.program) );
 
-    int view = 1;
+    float view = 100;
+    bool direct = true;
     while(!glfwWindowShouldClose(window))
     {
-        view += 1;
+        view = 100; //+= 1 * (direct*2-1);
+        if (view >= 100)
+        {
+            direct = false;
+        } else
+        if (view <= 100)
+        {
+            direct = true;
+        }
+        
+        
+        
+
         GLCall(glUniform1f(glGetUniformLocation(wooow.program, "view"), float(view)));
 
 
         GLCall(glClear(GL_COLOR_BUFFER_BIT));
 
-        Update(&Entities);
-
-        CheckCollisions(&Entities, wooow.program);
+        Update(&Entities, view);
+        CheckCollisions(&Entities, wooow.program);  //After Update cause it moves the entiies back
 
 
         

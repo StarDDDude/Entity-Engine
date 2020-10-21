@@ -10,6 +10,9 @@
 unsigned int block::VertexB_ID;
 unsigned int block::VertexA_ID;
 unsigned int block::Index_ID;
+unsigned int block::FIRST_VertexB_ID;
+unsigned int block::FIRST_VertexA_ID;
+unsigned int block::FIRST_Index_ID;
 
 block::block(unsigned int i_program)
     : type(0), program(i_program)
@@ -19,6 +22,7 @@ block::block(unsigned int i_program)
     speed = 1+static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/4));
     Xpos = rand() % int(201 - 2*size) - (100 - size);
     Ypos = rand() % int(201 - 2*size) - (100 - size);
+    
     
     R = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
     G = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
@@ -54,9 +58,9 @@ block::block(unsigned int i_program)
 }
 
 void block::draw(){
-    GLCall(glBindVertexArray(VertexA_ID));
-    GLCall(glBindBuffer(GL_ARRAY_BUFFER, VertexB_ID));
-    GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, Index_ID));
+    GLCall(glBindVertexArray(FIRST_VertexA_ID));
+    GLCall(glBindBuffer(GL_ARRAY_BUFFER, FIRST_VertexB_ID));
+    GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, FIRST_Index_ID));
 
     GLCall(glUseProgram(program));
     GLCall(glUniform2f(glGetUniformLocation(program, "pos"), float(Xpos), float(Ypos)));
@@ -97,17 +101,19 @@ void block::BlockTouch(block *Obj, std::vector<void*> *EA, unsigned int program)
 }
 
 
-void block::wall(){
-    if((Xpos - size) < -100){
+void block::wall(int wall){
+
+
+    if((Xpos - size) < (wall * -1)){
         back();
         direction += 180 - direction-direction + (rand() % 20 -10);
-    } else if((Xpos + size) > 100){
+    } else if((Xpos + size) > wall){
         back();
         direction += 180 - direction-direction + (rand() % 20 -10);
-    } else if((Ypos - size) < -100){
+    } else if((Ypos - size) < (wall * -1)){
         back();
         direction += 180 - (direction + 90)-(direction + 90) + (rand() % 20 -10);
-    } else if((Ypos + size) > 100){
+    } else if((Ypos + size) > wall){
         back();
         direction += 180 - (direction + 90)-(direction + 90) + (rand() % 20 -10);
     }
