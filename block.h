@@ -8,7 +8,7 @@ public:
     unsigned char type;
     float Xpos;
     float Ypos;
-    float size;    
+    float size;
     float direction;
     float speed;
 
@@ -16,15 +16,7 @@ public:
     float G;
     float B;
 
-    static unsigned int VertexB_ID;
-    static unsigned int VertexA_ID;
-    static unsigned int Index_ID;
-    static unsigned int FIRST_VertexB_ID;
-    static unsigned int FIRST_VertexA_ID;
-    static unsigned int FIRST_Index_ID;
-    unsigned int program;
-
-    block(unsigned int i_program);        //i_ for inititializer variables
+    block();
     void update();
     void back();
     void OnTouch(int Xdistance, int Ydistance);

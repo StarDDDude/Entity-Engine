@@ -11,6 +11,7 @@
 #include "block.h"
 #include "system.h"
 #include "shader.h"
+#include "renderer.h"
 
 
 int main(void){
@@ -37,61 +38,47 @@ int main(void){
     }
 
 
-   shader wooow("shaders/VertexShader.glsl", "shaders/FragmentShader.glsl");
-
     /*! @brief Vector holding pointers to Objects that can be of multiple different types.
      * 
-     * At the start of each Entity is listed its type.
+     * At the start of each Entity is listed its type as an unsigned char.
      * 
      * @param[in] GettingType *(unsigned char*)Entities[i]
      * @param[in] GettingMember *(<Type>*)Entities[i].<member>
      */
     std::vector<void*> Entities;
 
+    renderer render;
+    shader shade("shaders/VertexShader.glsl", "shaders/FragmentShader.glsl");
+
     Entities.reserve(30);
-    Entities.emplace_back( new block(wooow.program) );
-    (*(block*)Entities[0]).FIRST_VertexB_ID = (*(block*)Entities[0]).VertexB_ID;
-    (*(block*)Entities[0]).FIRST_VertexA_ID = (*(block*)Entities[0]).VertexA_ID;
-    (*(block*)Entities[0]).FIRST_Index_ID = (*(block*)Entities[0]).Index_ID;
-    Entities.emplace_back( new block(wooow.program) );
-    Entities.emplace_back( new block(wooow.program) );
-    Entities.emplace_back( new block(wooow.program) );
-    Entities.emplace_back( new block(wooow.program) );
-    Entities.emplace_back( new block(wooow.program) );
+    Entities.emplace_back( new block );
+    render.CreateSquareData();                          //Manually Creating data to draw object
+    Entities.emplace_back( new block() );
+    Entities.emplace_back( new block() );
+    Entities.emplace_back( new block() );
+    Entities.emplace_back( new block() );
+    Entities.emplace_back( new block() );
 
     float view = 100;
     bool direct = true;
     while(!glfwWindowShouldClose(window))
     {
-        view = 100; //+= 1 * (direct*2-1);
-        if (view >= 100)
-        {
+        view += 1 * (direct*2-1);
+        if(view >= 200){     //Upper Limit
             direct = false;
         } else
-        if (view <= 100)
-        {
+        if(view <= 50){    //Lower Limit
             direct = true;
         }
-        
-        
-        
-
-        GLCall(glUniform1f(glGetUniformLocation(wooow.program, "view"), float(view)));
+        GLCall(glUniform1f(glGetUniformLocation(shade.program, "view"), float(view)));
 
 
         GLCall(glClear(GL_COLOR_BUFFER_BIT));
 
         Update(&Entities, view);
-        CheckCollisions(&Entities, wooow.program);  //After Update cause it moves the entiies back
+        CheckCollisions(&Entities, shade.program);  //After Update cause it moves the entities back
 
-
-        
-        for (int i=0; i<Entities.size(); i++){
-            switch(*(unsigned char*)Entities[i]){
-                case 0 : (*(block*)Entities[i]).draw(); break;
-                default: std::cout << "Please fix your bullshit"; std::cout.flush();
-            }
-        }
+        render.draw(&Entities, shade.program);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
