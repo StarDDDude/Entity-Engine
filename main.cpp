@@ -38,6 +38,8 @@ int main(void){
     }
 
 
+
+
     /*! @brief Vector holding pointers to Objects that can be of multiple different types.
      * 
      * At the start of each Entity is listed its type as an unsigned char.
@@ -53,16 +55,14 @@ int main(void){
     Entities.reserve(30);
     Entities.emplace_back( new block );
     render.CreateSquareData();                          //Manually Creating data to draw object
-    Entities.emplace_back( new block() );
-    Entities.emplace_back( new block() );
-    Entities.emplace_back( new block() );
-    Entities.emplace_back( new block() );
-    Entities.emplace_back( new block() );
+
+    //^Creating initial objects to start off the simulation
 
     float view = 100;
     bool direct = true;
     while(!glfwWindowShouldClose(window))
     {
+        //[1]:
         view += 1 * (direct*2-1);
         if(view >= 200){     //Upper Limit
             direct = false;
@@ -71,17 +71,28 @@ int main(void){
             direct = true;
         }
         GLCall(glUniform1f(glGetUniformLocation(shade.program, "view"), float(view)));
-
-
+        
+        //[2]:
         GLCall(glClear(GL_COLOR_BUFFER_BIT));
 
-        Update(&Entities, view);
-        CheckCollisions(&Entities, shade.program);  //After Update cause it moves the entities back
-
+        //[3]:
+        update(&Entities, view);
+        CheckCollisions(&Entities, shade.program);
+        
+        //[4]:
         render.draw(&Entities, shade.program);
 
+        //[5]:
         glfwSwapBuffers(window);
         glfwPollEvents();
+
+        //1. [view]: Setting varible used to transform the viewpoint
+        //2. [glClear]
+        //3. [Updates]:
+        //  - Updating the entities position
+        //  - Checking the entities Collisions and moving them back based on these
+        //4. [Drawing]: Drawing the entities
+        //5. [SwapBuffers + PollEvents]
     }
     glfwTerminate();
     return 0;
