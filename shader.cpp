@@ -10,10 +10,12 @@ shader::shader(const std::string& VS_File, const std::string& FS_File)
     program = glCreateProgram();
     GLuint VS_ID = glCreateShader(GL_VERTEX_SHADER);
     GLuint FS_ID = glCreateShader(GL_FRAGMENT_SHADER);
+
     std::string VS_src = ParseShader(VS_File);
     std::string FS_src = ParseShader(FS_File);
-    CompileLinkShader(VS_ID, VS_src);
-    CompileLinkShader(FS_ID, FS_src);
+
+    CompileAttatchShader(VS_ID, VS_src);
+    CompileAttatchShader(FS_ID, FS_src);
 
     GLCall(glLinkProgram(program));
     GLCall(glValidateProgram(program));
@@ -26,6 +28,7 @@ shader::shader(const std::string& VS_File, const std::string& FS_File)
 
 shader::~shader()
 {
+    GLCall(glDeleteProgram(program));
 }
 
 std::string shader::ParseShader(const std::string& FilePath){
@@ -43,7 +46,8 @@ std::string shader::ParseShader(const std::string& FilePath){
     return src;
 }
 
-void shader::CompileLinkShader(GLuint ShaderID, const std::string& i_ShaderSource){
+void shader::CompileAttatchShader(GLuint ShaderID, const std::string& i_ShaderSource)
+{
     const char* ShaderSource = i_ShaderSource.c_str();
 
     GLCall(glShaderSource(ShaderID, 1, &ShaderSource, nullptr));

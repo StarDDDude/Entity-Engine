@@ -66,7 +66,7 @@ void update(std::vector<void*> *Entities, int wall)
         
         default:
             std::cout << "[ERROR]:Entity was detected with an invalid Entity ID" << std::endl;
-            std::cout << "|-----|:renderer.cpp" << std::endl;
+            std::cout << "|-----|:system.cpp" << std::endl;
             std::cout.flush();
         }
         //1. [switch]:          Check object type to determine which update routine to call

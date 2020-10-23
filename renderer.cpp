@@ -9,7 +9,11 @@ renderer::renderer(){
 
 }
 renderer::~renderer(){
-
+    while(Index_IDs.size() > 0){
+        VertexB_IDs.erase(VertexB_IDs.end()-1);
+        VertexA_IDs.erase(VertexA_IDs.end()-1);
+        Index_IDs.erase(Index_IDs.end()-1);
+    }
 }
 
 /*! @brief Draws entities
@@ -76,13 +80,12 @@ void renderer::CreateSquareData()
     GLCall(glGenBuffers(1, &VertexB_IDs.back()));
     GLCall(glBindBuffer(GL_ARRAY_BUFFER, VertexB_IDs.back()));
     GLCall(glBufferData(GL_ARRAY_BUFFER, 8*sizeof(float), verticies, GL_STATIC_DRAW));
-    
+
     GLCall(glGenVertexArrays(1, &VertexA_IDs.back()));
     GLCall(glBindVertexArray(VertexB_IDs.back()));
-
     GLCall(glEnableVertexAttribArray(0));
     GLCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2*sizeof(float), 0));
-
+    
     GLCall(glGenBuffers(1, &Index_IDs.back()));
     GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, Index_IDs.back()));
     GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6*sizeof(unsigned int), indicies, GL_STATIC_DRAW));

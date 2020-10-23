@@ -27,6 +27,11 @@ block::block()
     //Integer:  rand() % int(<Area>) - (<Offset>);
 }
 
+block::~block()
+{
+    
+}
+
 /*! @brief moves object forwards into direction */
 void block::update()
 {

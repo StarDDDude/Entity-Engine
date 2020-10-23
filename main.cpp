@@ -39,7 +39,6 @@ int main(void){
 
 
 
-
     /*! @brief Vector holding pointers to Objects that can be of multiple different types.
      * 
      * At the start of each Entity is listed its type as an unsigned char.
@@ -55,6 +54,8 @@ int main(void){
     Entities.reserve(30);
     Entities.emplace_back( new block );
     render.CreateSquareData();                          //Manually Creating data to draw object
+    Entities.emplace_back( new block );
+    Entities.emplace_back( new block );
 
     //^Creating initial objects to start off the simulation
 
@@ -86,6 +87,7 @@ int main(void){
         glfwSwapBuffers(window);
         glfwPollEvents();
 
+
         //1. [view]: Setting varible used to transform the viewpoint
         //2. [glClear]
         //3. [Updates]:
@@ -94,6 +96,13 @@ int main(void){
         //4. [Drawing]: Drawing the entities
         //5. [SwapBuffers + PollEvents]
     }
+
+    while(Entities.size() > 0){
+        delete (block*)Entities.back();
+        Entities.erase(Entities.end()-1);
+    }
+
+
     glfwTerminate();
     return 0;
 }
