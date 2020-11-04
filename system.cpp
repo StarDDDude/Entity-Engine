@@ -63,6 +63,11 @@ void update(std::vector<void*> *Entities, int wall)
             (*(block*)(*Entities)[i]).update();
             (*(block*)(*Entities)[i]).wall(wall);
             break;
+        case 1 :
+            //[2]:
+            (*(jump*)(*Entities)[i]).update();
+            (*(jump*)(*Entities)[i]).wall(wall);
+            break;
         
         default:
             std::cout << "[ERROR]:Entity was detected with an invalid Entity ID" << std::endl;
@@ -87,6 +92,10 @@ void CheckCollisions(std::vector<void*> *Entities, unsigned int program)
         //[2]:
         if ((TypeA == 0) && (TypeB == 0)) {
             (*(block*)(*Entities)[j]).BlockTouch((block*)(*Entities)[i], Entities);
+        } else if((TypeA == 1) && (TypeB == 0)){
+            (*(jump*)(*Entities)[i]).BlockTouch((block*)(*Entities)[j]);
+        } else if((TypeA == 0) && (TypeB == 1)){
+            (*(jump*)(*Entities)[j]).BlockTouch((block*)(*Entities)[i]);
         }
         
         //[3]:

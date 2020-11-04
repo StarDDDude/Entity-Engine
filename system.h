@@ -1,6 +1,7 @@
 #pragma once
 
 #include "block.h"
+#include "jump.h"
 
 bool CollideCC(float XPos1, float YPos1, float Radius1, float XPos2, float YPos2, float Radius2);
 

@@ -9,6 +9,7 @@
 
 #include "GLAssert.h"
 #include "block.h"
+#include "jump.h"
 #include "system.h"
 #include "shader.h"
 #include "renderer.h"
@@ -51,20 +52,20 @@ int main(void){
     renderer render;
     shader shade("shaders/VertexShader.glsl", "shaders/FragmentShader.glsl");
 
-    Entities.reserve(30);
+    Entities.reserve(10);
     Entities.emplace_back( new block );
     render.CreateSquareData();                          //Manually Creating data to draw object
-    Entities.emplace_back( new block );
-    Entities.emplace_back( new block );
-
+    Entities.emplace_back( new jump );
+    //Entities.emplace_back( new jump );
     //^Creating initial objects to start off the simulation
 
     float view = 100;
     bool direct = true;
+    GLCall(glUniform1f(glGetUniformLocation(shade.program, "view"), float(view)));
     while(!glfwWindowShouldClose(window))
     {
         //[1]:
-        view += 1 * (direct*2-1);
+        /*view += 1 * (direct*2-1);
         if(view >= 200){     //Upper Limit
             direct = false;
         } else
@@ -72,7 +73,8 @@ int main(void){
             direct = true;
         }
         GLCall(glUniform1f(glGetUniformLocation(shade.program, "view"), float(view)));
-        
+        */
+
         //[2]:
         GLCall(glClear(GL_COLOR_BUFFER_BIT));
 

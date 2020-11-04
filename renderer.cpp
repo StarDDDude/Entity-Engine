@@ -24,11 +24,25 @@ renderer::~renderer(){
 void renderer::draw(std::vector<void*> *Entities, unsigned int program)
 {
     for(int i=0; i<Entities->size(); i++)
-    {   
+    {
         //[1]:
         unsigned char type = *(unsigned char*)(*Entities)[i];
         switch (type){
         case 0 :
+            //[2]:
+            GLCall(glBindVertexArray(VertexA_IDs[0]));                  //<- Detect which VA must be used by object type
+            GLCall(glBindBuffer(GL_ARRAY_BUFFER, VertexB_IDs[0]));      //Currently only works cause there is only 1
+            GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, Index_IDs[0]));//type of object and graphics data
+            GLCall(glUseProgram(program));
+
+            //[3]:
+            GLCall(glUniform2f(glGetUniformLocation(program, "pos"), float((*(block*)(*Entities)[i]).Xpos), float((*(block*)(*Entities)[i]).Ypos)));
+            GLCall(glUniform1f(glGetUniformLocation(program, "size"), float((*(block*)(*Entities)[i]).size)));
+            GLCall(glUniform4f(glGetUniformLocation(program, "Col"), (*(block*)(*Entities)[i]).R, (*(block*)(*Entities)[i]).G, (*(block*)(*Entities)[i]).B, 1.0));
+            //^Godforsaken unreadable code
+            break;
+        
+        case 1 :
             //[2]:
             GLCall(glBindVertexArray(VertexA_IDs[0]));                  //<- Detect which VA must be used by object type
             GLCall(glBindBuffer(GL_ARRAY_BUFFER, VertexB_IDs[0]));      //Currently only works cause there is only 1
