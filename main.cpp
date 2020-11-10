@@ -56,6 +56,7 @@ int main(void){
     Entities.emplace_back( new block );
     render.CreateSquareData();                          //Manually Creating data to draw object
     Entities.emplace_back( new jump );
+    Entities.emplace_back( new block );
     //Entities.emplace_back( new jump );
     //^Creating initial objects to start off the simulation
 

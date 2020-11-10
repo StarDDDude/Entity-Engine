@@ -12,15 +12,15 @@ block::block()
 {
     size = 1+static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/3));
     direction = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/360));
-    speed = 0;//1+static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/4));
-    Xpos = 0;//rand() % int(201 - 2*size) - (100 - size);
-    Ypos = -50;//rand() % int(201 - 2*size) - (100 - size);
+    speed = 2;//1+static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/4));
+    Xpos = rand() % int(201 - 2*size) - (100 - size);
+    Ypos = rand() % int(201 - 2*size) - (100 - size);
     
     
     R = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
     G = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
     B = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-    
+
 
     //Syntax for generating random numbers:
     //Float:    <Low Limit>+static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/<High Limit>))
@@ -57,9 +57,9 @@ void block::OnTouch(int Xdistance, int Ydistance)
 {
     back();
     if (Xdistance > Ydistance){ //X-Side:
-        direction += 180 - direction - (direction*int((direction > 90) && (direction < 270))) + (rand() % 20 -10);
+        direction += 180 - direction - (direction*int((direction > 90) && (direction < 270)));// + (rand() % 20 -10);
     } else {    //Y-Side:
-        direction += 180 - (direction - 90) - (direction + 90) + (rand() % 20 -10);
+        direction += 180 - (direction - 90) - (direction + 90);// + (rand() % 20 -10);
     }
 }
 
@@ -99,15 +99,15 @@ void block::wall(int wall)
 
     if((Xpos - size) < (wall * -1)){        //Left
         back();
-        direction += 180 - direction-direction + (rand() % 20 -10);
+        direction += 180 - direction-direction;// + (rand() % 20 -10);
     } else if((Xpos + size) > wall){        //Right
         back();
-        direction += 180 - direction-direction + (rand() % 20 -10);
+        direction += 180 - direction-direction;// + (rand() % 20 -10);
     } else if((Ypos - size) < (wall * -1)){ //Down
         back();
-        direction += 180 - (direction + 90)-(direction + 90) + (rand() % 20 -10);
+        direction += 180 - (direction + 90)-(direction + 90);// + (rand() % 20 -10);
     } else if((Ypos + size) > wall){        //Up
         back();
-        direction += 180 - (direction + 90)-(direction + 90) + (rand() % 20 -10);
+        direction += 180 - (direction + 90)-(direction + 90);// + (rand() % 20 -10);
     }
 }

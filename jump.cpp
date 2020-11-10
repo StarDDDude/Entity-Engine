@@ -53,12 +53,12 @@ void jump::back()
 void jump::OnTouch(int Yside)
 {
     back();
-    if (Yside > 0){
-        Ypos += accel + 0.1f;
-        accel = 6.5;
-    } else {
+    if (Yside < 0){
         Ypos -= accel + 0.1f;
         accel *= -0.6;
+    } else {
+        Ypos += accel + 0.1f;
+        accel = 3.5;
     }
 }
 
@@ -75,7 +75,7 @@ void jump::BlockTouch(block *Obj)
     int Xdistance = abs(Xpos - Obj->Xpos) - (size + Obj->size);
     int Ydistance = abs(Ypos - Obj->Ypos) - (size + Obj->size);
 
-    int Yside = Xpos - Obj->Xpos;
+    int Yside = Ypos - Obj->Ypos;
 
     //[2]
     if ((Xdistance < 0) && (Ydistance < 0)){
@@ -102,7 +102,7 @@ void jump::wall(int wall)
 
     } else if((Ypos - size) < (wall * -1)){ //Down
         Ypos += accel;
-        accel = 6.5;
+        accel = 3.5;
     } else if((Ypos + size) > wall){        //Up
         Ypos -= accel + 0.1f;
         accel *= -0.6;
